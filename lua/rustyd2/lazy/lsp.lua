@@ -1,5 +1,8 @@
 local custom_attach = function()
-    print('Custom attach trigger')
+    vim.keymap.set('n', 'K', vim.lsp.buf.signature_help, { buffer = 0 })
+    vim.keymap.set('n', 'H', vim.lsp.buf.hover, { buffer = 0 })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = 0 })
+    vim.keymap.set('n', 'fd', vim.lsp.buf.format, { buffer = 0 })
 end
 
 return {
@@ -11,7 +14,7 @@ return {
     },
     {
         "williamboman/mason-lspconfig.nvim",
-        dependencies={
+        dependencies = {
             "neovim/nvim-lspconfig",
             "williamboman/mason.nvim",
         },
@@ -38,8 +41,8 @@ return {
         config = function()
             local lspconfig = require('lspconfig')
 
-            lspconfig.lua_ls.setup ({})
-            lspconfig.eslint.setup ({})
+            lspconfig.lua_ls.setup({})
+            lspconfig.eslint.setup({})
         end
     }
 }
