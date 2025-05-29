@@ -1,5 +1,8 @@
 vim.opt.guicursor = ""
 
+vim.g.editorconfig = true
+
+
 vim.opt.wrap = false
 vim.opt.nu = true
 vim.opt.relativenumber = true
