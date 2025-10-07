@@ -11,37 +11,37 @@ local fmt = require("luasnip.extras.fmt").fmt
 
 --funcfunc
 ls.add_snippets('typescript', {
-    s('log', fmt('console.log("{}",{});',
-        {
+    s('log', c(1, {
+        fmt('console.log("{}",{})', {
             i(1),
             i(2),
-        })),
+        }),
+        fmt('console.log({})', {
+            i(1),
+        }),
+    }))
 })
 
 ls.add_snippets('typescript', {
-    s('err', fmt('console.error("{}",{});',
-        {
+    s('error', c(1, {
+        fmt('console.error("{}",{})', {
             i(1),
             i(2),
-        })),
+        }),
+        fmt('console.error({})', {
+            i(1),
+        }),
+    }))
 })
 
-local functionsSnippets = { [[
-                {}()=>{{
-                    {}
-                }}
-            ]],
-    [[
-              {}()=>{{
-                  {}
-              }}
-            ]]
-
-}
-
---ls.add_snippets('lua', {
---    s('fu', fmt(functionsSnippets, {
---        i(1),
---        i(2),
---    })),
---})
+ls.add_snippets('typescript', {
+    s('warn', c(1, {
+        fmt('console.warn("{}",{})', {
+            i(1),
+            i(2),
+        }),
+        fmt('console.warn({})', {
+            i(1),
+        }),
+    }))
+})

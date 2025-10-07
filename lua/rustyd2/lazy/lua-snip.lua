@@ -20,13 +20,17 @@ return {
             " Use Shift-Tab to jump backwards through snippets
             imap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
             smap <silent><expr> <S-Tab> luasnip#jumpable(-1) ? '<Plug>luasnip-jump-prev' : '<S-Tab>'
+
+            " For changing choices in choiceNodes (not strictly necessary for a basic setup).
+            imap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
+            smap <silent><expr> <C-E> luasnip#choice_active() ? '<Plug>luasnip-next-choice' : '<C-E>'
         ]]
 
-        vim.keymap.set({ "i", "s" }, "<C-E>", function()
-            if ls.choice_active() then
-                ls.change_choice(1)
-            end
-        end, { silent = true })
+        -- vim.keymap.set({ "i", "s" }, "<C-e>", function()
+        --     if ls.choice_active() then
+        --         ls.change_choice(1)
+        --     end
+        -- end, { silent = true })
 
         require("rustyd2.snippets")
     end
