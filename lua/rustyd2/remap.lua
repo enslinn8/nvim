@@ -27,15 +27,14 @@ end)
 
 --l    local opts = { buffer = bufnr, remap = false }
 local opts = { buffer = bufnr, remap = false }
-vim.keymap.set('n', 'K', vim.lsp.buf.signature_help, opts)
-vim.keymap.set('n', 'H', vim.lsp.buf.hover, opts)
+vim.keymap.set('n', 'H', vim.lsp.buf.signature_help, opts)
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
 vim.keymap.set('n', '<leader>fd', vim.lsp.buf.format, opts)
-vim.keymap.set('n', '<leader>fd', vim.lsp.buf.format, opts)
 vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end, opts)
-
-vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts)
-vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, opts)
+ 
+vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
 
 vim.keymap.set("n", "<leader>ee", function() vim.cmd('NvimTreeToggle') end, opts)
 vim.keymap.set("n", "<leader>ef", function() vim.cmd('NvimTreeFindFile') end, opts)

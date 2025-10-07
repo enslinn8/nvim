@@ -1,10 +1,3 @@
-local custom_attach = function()
-    vim.keymap.set('n', 'K', vim.lsp.buf.signature_help, { buffer = 0 })
-    vim.keymap.set('n', 'H', vim.lsp.buf.hover, { buffer = 0 })
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = 0 })
-    vim.keymap.set('n', '<leader>fd', vim.lsp.buf.format, { buffer = 0 })
-end
-
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -24,8 +17,26 @@ return {
     config = function()
         require("conform").setup({
             formatters_by_ft = {
-            }
+                javascript = { "prettier" },
+                typescript = { "prettier" },
+                -- Add other file types as needed
+            },
+            opts = function(_, opts)
+                opts.formatters_by_ft = opts.formatters_by_ft or {}
+                for _, ft in ipairs(supported) do
+                    opts.formatters_by_ft[ft] = opts.formatters_by_ft[ft] or {}
+                    table.insert(opts.formatters_by_ft[ft], "prettier")
+                end
+
+                opts.formatters = opts.formatters or {}
+                opts.formatters.prettier = {
+                    condition = function(_, ctx)
+                        return M.has_parser(ctx) and (vim.g.lazyvim_prettier_needs_config ~= true or M.has_config(ctx))
+                    end,
+                }
+            end
         })
+
         local cmp = require('cmp')
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
@@ -35,7 +46,7 @@ return {
             cmp_lsp.default_capabilities())
 
         require("fidget").setup({})
-        require("mason").setup()
+        require("mason").setup({})
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
@@ -64,9 +75,9 @@ return {
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
-                { name = "copilot", group_index = 2 },
-                { name = 'nvim_lsp' },
                 { name = 'luasnip' }, -- For luasnip users.
+                --{ name = "copilot", group_index = 2 },
+                { name = 'nvim_lsp' },
             }, {
                 { name = 'buffer' },
             })
