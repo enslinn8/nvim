@@ -11,13 +11,41 @@ local fmt = require("luasnip.extras.fmt").fmt
 
 --funcfunc
 ls.add_snippets('html', {
-    s('div', fmt('<div>{}</div>', {
-        i(1),
-    })),
+    s('div', c(1, {
+        fmt('<div class="{}">{}</div>', {
+            i(1),
+            i(2),
+        }),
+        t('<div></div>'),
+    }))
 })
+
 
 ls.add_snippets('html', {
     s('button', fmt('<button>{}</button>', {
         i(1),
+    })),
+})
+
+
+ls.add_snippets('html', {
+    s('input', c(1, {
+        fmt("<input class='{}' placeholder='{}' value='{}'/>", {
+            i(1),
+            i(2),
+            i(3),
+        }),
+        t("<input />"),
+    })),
+})
+ls.add_snippets('html', {
+    s('label', c(1, {
+        fmt("<label for='{}' class='{}' placeholder='{}' value='{}'/>", {
+            i(1),
+            i(2),
+            i(3),
+            i(4),
+        }),
+        t("<label />"),
     })),
 })

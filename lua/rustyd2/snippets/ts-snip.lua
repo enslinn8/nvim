@@ -6,42 +6,138 @@ local f = ls.function_node
 local c = ls.choice_node
 local d = ls.dynamic_node
 local r = ls.restore_node
+local rep = require("luasnip.extras").rep
 local extras = require("luasnip.extras")
+local fmta = require("luasnip.extras.fmt").fmta
 local fmt = require("luasnip.extras.fmt").fmt
+
 
 --funcfunc
 ls.add_snippets('typescript', {
-    s('log', c(1, {
-        fmt('console.log("{}",{})', {
-            i(1),
-            i(2),
-        }),
-        fmt('console.log({})', {
-            i(1),
-        }),
-    }))
+    s('cl', fmta([[
+    console.log("<item>",<value>);
+    ]],
+        {
+            item = i(1),
+            value = i(2),
+        }
+    )),
 })
 
 ls.add_snippets('typescript', {
-    s('error', c(1, {
-        fmt('console.error("{}",{})', {
-            i(1),
-            i(2),
-        }),
-        fmt('console.error({})', {
-            i(1),
-        }),
-    }))
+    s('cw', fmta([[
+    console.warn("<item>",<value>);
+    ]],
+        {
+            item = i(1),
+            value = i(2),
+        }
+    )),
 })
 
 ls.add_snippets('typescript', {
-    s('warn', c(1, {
-        fmt('console.warn("{}",{})', {
+    s('ce', fmta([[
+    console.error("<item>",<value>);
+    ]],
+        {
+            item = i(1),
+            value = i(2),
+        }
+    )),
+})
+ls.add_snippets('typescript', {
+    s('ct', c(1, {
+        fmta([[
+    console.time("<item>");
+    ]],
+            {
+                item = i(1),
+            }
+        ),
+        fmta([[
+    console.timeEnd("<item>");
+    ]],
+            {
+                item = i(1),
+            }
+        )
+    })),
+})
+
+-- please note for `fmt` the rep should be last or it will throw nil exception
+ls.add_snippets('typescript', {
+    s('for',
+        fmt([[
+            for(let i = 0; i < {1}.length; i++){{
+                const {2} = {4}[i];
+                {3}
+            }}
+            ]],
+            {
+                i(1),
+                i(2, 'element'),
+                i(3),
+                rep(1),
+            }
+        )
+    ),
+})
+
+ls.add_snippets('typescript', {
+    s('foro',
+        fmt([[
+            for(let {1} of {2}){{
+
+            }}
+            ]],
+            {
+                i(1, 'item'),
+                i(2),
+            }
+        )
+    ),
+})
+
+ls.add_snippets('typescript', {
+    s('forn',
+        fmt([[
+            for(let {1} in {2}){{
+
+            }}
+            ]],
+            {
+                i(1, 'item'),
+                i(2),
+            }
+        )
+    ),
+})
+
+
+ls.add_snippets('typescript', {
+    s('af',
+        {
+            t('const '),
             i(1),
-            i(2),
-        }),
-        fmt('console.warn({})', {
-            i(1),
-        }),
-    }))
+            t(' = '),
+            c(2, {
+                fmt([[({1}):{2} => {{
+                    {3}
+                }}
+                ]], {
+                    i(1),
+                    i(2, 'void'),
+                    i(3),
+                }),
+                fmt([[async ({1}):Promise<{2}> =>{{
+                    {3}
+                }}
+                ]], {
+                    i(1),
+                    i(2, 'void'),
+                    i(3),
+                }),
+            }),
+        }
+    ),
 })

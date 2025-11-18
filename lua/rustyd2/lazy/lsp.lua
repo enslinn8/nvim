@@ -19,6 +19,7 @@ return {
             formatters_by_ft = {
                 javascript = { "prettier" },
                 typescript = { "prettier" },
+                html = { "prettier" },
                 -- Add other file types as needed
             },
             opts = function(_, opts)
@@ -75,9 +76,9 @@ return {
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
-                { name = 'luasnip' }, -- For luasnip users.
+                { name = 'luasnip',  group_index = 1 },  -- For luasnip users.
+                { name = 'nvim_lsp', group_index = 2 },
                 --{ name = "copilot", group_index = 2 },
-                { name = 'nvim_lsp' },
             }, {
                 { name = 'buffer' },
             })
