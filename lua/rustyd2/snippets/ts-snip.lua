@@ -6,6 +6,7 @@ local f = ls.function_node
 local c = ls.choice_node
 local d = ls.dynamic_node
 local r = ls.restore_node
+require("luasnip.session.snippet_collection").clear_snippets "ts-snip"
 local rep = require("luasnip.extras").rep
 local extras = require("luasnip.extras")
 local fmta = require("luasnip.extras.fmt").fmta
@@ -141,3 +142,51 @@ ls.add_snippets('typescript', {
         }
     ),
 })
+
+local type_choices = {
+    i(1),
+    t('string'),
+    t('number'),
+    t('boolean'),
+}
+
+ls.add_snippets('typescript', {
+    s('prop', {
+        i(1, 'key'),
+        t(': '),
+        c(2, type_choices),
+    })
+})
+
+ls.add_snippets('typescript', {
+    s('type', fmta([[
+        type <itemType> = {
+            <key>:<valueType>
+        }
+    ]],
+        {
+            itemType = "foo",
+            key = "key",
+            valueType = "string",
+        }
+    ))
+})
+
+ls.add_snippets('typescript', {
+    s('import', fmta([[ import { <mod> } from '<modName>';]],
+        {
+            modName = i(1),
+            mod = i(2),
+        }))
+})
+
+ls.add_snippets('typescript', {
+    s('title', fmta(
+        [[/**********************************************
+*       <title>
+**********************************************/]],
+        {
+            title = i(1),
+        }))
+})
+
