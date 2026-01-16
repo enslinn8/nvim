@@ -190,3 +190,14 @@ ls.add_snippets('typescript', {
         }))
 })
 
+ls.add_snippets('typescript', {
+    s('pro', t("const promises :any[] = [];")),
+
+})
+
+ls.add_snippets('typescript', {
+    s('pra', c(1, {
+        t("await Promise.all(promises)"),
+        fmt([[const [{}]=await Promise.all(promises)]], i(1))
+    }))
+})
