@@ -4,10 +4,15 @@ return {
     config = function()
         require("conform").setup({
             formatters_by_ft = {
-                javascript = { "prettierd", "prettier", stop_after_first = true },
-                typescript = { "prettierd", "prettier", stop_after_first = true },
-                html = { "prettierd", "prettier", stop_after_first = true },
+                javascript = { "prettier", stop_after_first = true },
+                typescript = { "prettier", stop_after_first = true },
+                html = { "prettier", stop_after_first = true },
                 -- Add other file types as needed
+            },
+            format_on_save = {
+                -- These options will be passed to conform.format()
+                timeout_ms = 500,
+                lsp_format = "fallback",
             },
             opts = function(_, opts)
                 opts.formatters_by_ft = opts.formatters_by_ft or {}

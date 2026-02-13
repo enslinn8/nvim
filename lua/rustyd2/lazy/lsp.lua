@@ -19,7 +19,7 @@ return {
             formatters_by_ft = {
                 javascript = { "prettier" },
                 typescript = { "prettier" },
-                html = { "prettier" },
+                html = { "prettierd" },
                 -- Add other file types as needed
             },
             opts = function(_, opts)
@@ -30,6 +30,11 @@ return {
                 end
 
                 opts.formatters = opts.formatters or {}
+                opts.formatters.prettierd = {
+                    condition = function(_, ctx)
+                        return M.has_parser(ctx) and (vim.g.lazyvim_prettier_needs_config ~= true or M.has_config(ctx))
+                    end,
+                }
                 opts.formatters.prettier = {
                     condition = function(_, ctx)
                         return M.has_parser(ctx) and (vim.g.lazyvim_prettier_needs_config ~= true or M.has_config(ctx))
@@ -76,7 +81,7 @@ return {
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
-                { name = 'luasnip',  group_index = 1 },  -- For luasnip users.
+                { name = 'luasnip',  group_index = 1 }, -- For luasnip users.
                 { name = 'nvim_lsp', group_index = 2 },
                 --{ name = "copilot", group_index = 2 },
             }, {
