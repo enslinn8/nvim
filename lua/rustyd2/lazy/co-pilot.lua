@@ -1,3 +1,19 @@
 return {
-    "github/copilot.vim"
+    "github/copilot.vim",
+    opts = {
+        filetypes = {
+            markdown = false,
+        },
+
+    },
+    config = function()
+        vim.api.nvim_create_autocmd("BufEnter", {
+            callback = function()
+                -- exclude all hidden files to prevent copilot from reading possible sensitive data
+                if vim.fn.getcwd():find("~/.*", 1, true) == 1 then
+                    vim.cmd("Copilot disable")
+                end
+            end,
+        })
+    end,
 }
