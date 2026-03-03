@@ -26,6 +26,17 @@ ls.add_snippets('typescript', {
 })
 
 ls.add_snippets('typescript', {
+    s('ca', fmta([[
+    console.assert(<expression>,"<value>");
+    ]],
+        {
+            expression = i(1),
+            value = i(2),
+        }
+    )),
+})
+
+ls.add_snippets('typescript', {
     s('cw', fmta([[
     console.warn("<item>",<value>);
     ]],
