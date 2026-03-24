@@ -49,3 +49,14 @@ ls.add_snippets('html', {
         t("<label />"),
     })),
 })
+
+ls.add_snippets('html', {
+    s('for', c(1, {
+        fmt("@for({} of {}; track {}){{", {
+            i(1),
+            i(2),
+            i(3),
+        }),
+        t("}}"),
+    })),
+})
