@@ -15,35 +15,7 @@ return {
     },
 
     config = function()
-        require("conform").setup({
-            formatters_by_ft = {
-                javascript = { "prettier" },
-                typescript = { "prettier" },
-                html = { "prettierd" },
-                -- Add other file types as needed
-            },
-            opts = function(_, opts)
-                opts.formatters_by_ft = opts.formatters_by_ft or {}
-                for _, ft in ipairs(supported) do
-                    opts.formatters_by_ft[ft] = opts.formatters_by_ft[ft] or {}
-                    table.insert(opts.formatters_by_ft[ft], "prettier")
-                end
-
-                opts.formatters = opts.formatters or {}
-                opts.formatters.prettierd = {
-                    condition = function(_, ctx)
-                        return M.has_parser(ctx) and (vim.g.lazyvim_prettier_needs_config ~= true or M.has_config(ctx))
-                    end,
-                }
-                opts.formatters.prettier = {
-                    condition = function(_, ctx)
-                        return M.has_parser(ctx) and (vim.g.lazyvim_prettier_needs_config ~= true or M.has_config(ctx))
-                    end,
-                }
-            end
-        })
-
-        local cmp = require('cmp')
+        local cmp = require('cmp') -- completion engine
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = vim.tbl_deep_extend(
             "force",
@@ -51,7 +23,8 @@ return {
             vim.lsp.protocol.make_client_capabilities(),
             cmp_lsp.default_capabilities())
 
-        require("fidget").setup({})
+        require("fidget").setup({})-- Extensible UI for Neovim notifications and LSP progress messages.
+
         require("mason").setup({})
         require("mason-lspconfig").setup({
             ensure_installed = {
@@ -83,14 +56,13 @@ return {
             sources = cmp.config.sources({
                 { name = 'luasnip',  group_index = 1 }, -- For luasnip users.
                 { name = 'nvim_lsp', group_index = 2 },
-                --{ name = "copilot", group_index = 2 },
+                { name = "copilot",  group_index = 3 },
             }, {
                 { name = 'buffer' },
             })
         })
 
         vim.diagnostic.config({
-            -- update_in_insert = true,
             float = {
                 focusable = false,
                 style = "minimal",

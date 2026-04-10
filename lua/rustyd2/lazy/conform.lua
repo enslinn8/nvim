@@ -1,39 +1,50 @@
 return {
-    'stevearc/conform.nvim',
-    opts = {},
-    config = function()
-        require("conform").setup({
-            formatters_by_ft = {
-                javascript = { "prettier", stop_after_first = true },
-                typescript = { "prettier", stop_after_first = true },
-                html = { "prettier", stop_after_first = true },
-                -- Add other file types as needed
-            },
-            format_on_save = {
-                -- These options will be passed to conform.format()
-                timeout_ms = 500,
-                lsp_format = "fallback",
-            },
-            opts = function(_, opts)
-                opts.formatters_by_ft = opts.formatters_by_ft or {}
-                for _, ft in ipairs(supported) do
-                    opts.formatters_by_ft[ft] = opts.formatters_by_ft[ft] or {}
-                    table.insert(opts.formatters_by_ft[ft], "prettier")
-                end
-
-                opts.formatters = opts.formatters or {}
-                opts.formatters.prettier = {
-                    condition = function(_, ctx)
-                        return M.has_parser(ctx) and (vim.g.lazyvim_prettier_needs_config ~= true or M.has_config(ctx))
-                    end,
-                }
-            end
-        });
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            pattern = "*",
-            callback = function(args)
-                require("conform").format({ bufnr = args.buf })
-            end,
-        })
-    end
+	"stevearc/conform.nvim",
+	opts = {},
+	config = function()
+		require("conform").setup({
+			require("conform").setup({
+				format_on_save = {
+					timeout_ms = 500,
+					lsp_fallback = true,
+				},
+				formatters_by_ft = {
+					lua = { "stylua" },
+					-- Conform will run the first available formatter
+					javascript = { "prettier" },
+					typescript = { "prettier" },
+					html = { "prettier" },
+					htmlangular = { "prettier" },
+				},
+				formatters = {
+					prettier = {
+						-- Only run if a config file is found in the project
+						require_cwd = true,
+						-- Define which files count as a "config"
+						cwd = require("conform.util").root_file({
+							".prettierrc",
+							".prettierrc.json",
+							".prettierrc.yml",
+							".prettierrc.yaml",
+							".prettierrc.json5",
+							".prettierrc.js",
+							".prettierrc.cjs",
+							".prettierrc.mjs",
+							".prettierrc.toml",
+							"prettier.config.js",
+							"prettier.config.cjs",
+							"prettier.config.mjs",
+							"package.json", -- optional: prettier can be configured in package.json
+						}),
+					},
+				},
+			}),
+		})
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			pattern = "*",
+			callback = function(args)
+				require("conform").format({ bufnr = args.buf })
+			end,
+		})
+	end,
 }
