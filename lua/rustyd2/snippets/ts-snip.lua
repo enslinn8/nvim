@@ -126,8 +126,14 @@ ls.add_snippets('typescript', {
 })
 
 
+
 ls.add_snippets('typescript', {
-    s('af',
+    s({
+            trig = 'af',
+            name = 'arrow func',
+            dscr = 'arrow functions'
+
+        },
         {
             t('const '),
             i(1),
@@ -142,6 +148,33 @@ ls.add_snippets('typescript', {
                     i(3),
                 }),
                 fmt([[async ({1}):Promise<{2}> =>{{
+                    {3}
+                }}
+                ]], {
+                    i(1),
+                    i(2, 'void'),
+                    i(3),
+                }),
+            }),
+        }
+    ),
+})
+
+ls.add_snippets('typescript', {
+    s('func',
+        {
+            t('function '),
+            i(1),
+            c(2, {
+                fmt([[({1}):{2} {{
+                    {3}
+                }}
+                ]], {
+                    i(1),
+                    i(2, 'void'),
+                    i(3),
+                }),
+                fmt([[async function({1}):Promise<{2}>{{
                     {3}
                 }}
                 ]], {
